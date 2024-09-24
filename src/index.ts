@@ -7,13 +7,15 @@ import {
     DeleteCommand,
 } from "@aws-sdk/lib-dynamodb";
 
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+
 const client = new DynamoDBClient({});
 
 const dynamo = DynamoDBDocumentClient.from(client);
 
 const tableName = "clientes";
 
-module.exports.handler = async (event: any, context: any) => {
+module.exports.handler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
     let body;
     let statusCode = 200;
     const headers = {
@@ -92,8 +94,10 @@ module.exports.handler = async (event: any, context: any) => {
     }
 
     return {
-        statusCode,
-        body,
-        headers,
-    };
+        "isBase64Encoded": true,
+        "statusCode": statusCode,
+        "headers": { "headerName": "headerValue",},
+        "multiValueHeaders": { "headerName": ["headerValue", "headerValue2"],},
+        "body": body
+    }
 };
