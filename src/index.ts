@@ -10,12 +10,11 @@ import {
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
 const client = new DynamoDBClient({});
-
 const dynamo = DynamoDBDocumentClient.from(client);
 
 const tableName = "clientes";
-
-module.exports.handler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
+//module.exports.handler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent, context: any): Promise<APIGatewayProxyResult> => {
     let body;
     let statusCode = 200;
     const headers = {
@@ -23,6 +22,7 @@ module.exports.handler = async (event: APIGatewayProxyEvent, context: any): Prom
     };
 
     try {
+        
         switch (event.httpMethod) {
 
             case "DELETE":
@@ -52,7 +52,7 @@ module.exports.handler = async (event: APIGatewayProxyEvent, context: any): Prom
                 }
                 else {
                     const pathParameter = event.path.split(event.path[0]).join('');
-
+                    
                     body = await dynamo.send(
                         new GetCommand({
                             TableName: tableName,
@@ -75,9 +75,9 @@ module.exports.handler = async (event: APIGatewayProxyEvent, context: any): Prom
                             id: requestJSON.id,
                             nome: requestJSON.nome,
                             data_nasc: requestJSON.data_nasc,
-                            ativo:requestJSON.ativo,
-                            address:requestJSON.address,
-                            contatos:requestJSON.contatos
+                            ativo: requestJSON.ativo,
+                            address: requestJSON.address,
+                            contatos: requestJSON.contatos
                         },
                     })
                 );
@@ -96,8 +96,8 @@ module.exports.handler = async (event: APIGatewayProxyEvent, context: any): Prom
     return {
         "isBase64Encoded": true,
         "statusCode": statusCode,
-        "headers": { "headerName": "headerValue",},
-        "multiValueHeaders": { "headerName": ["headerValue", "headerValue2"],},
+        "headers": { "headerName": "headerValue", },
+        "multiValueHeaders": { "headerName": ["headerValue", "headerValue2"], },
         "body": body
     }
 };
