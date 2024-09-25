@@ -27,3 +27,13 @@ O endpoint estará disponível na área Stages da API no API Gateway
 TODO:
 <br>
 model de input, validar input, specs e mocks.
+
+<br>
+<br>
+Para executar os testes:
+
+npm run unit
+<br>
+ou
+<br>
+npm run coverage
