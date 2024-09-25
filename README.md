@@ -31,7 +31,11 @@ model de input, validar input, specs e mocks.
 <br>
 <br>
 Para executar os testes:
-
+<br>
+<br>
+na pasta serverless-api execute os comandos:
+<br>
+<br>
 npm run unit
 <br>
 ou
