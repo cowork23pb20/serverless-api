@@ -27,7 +27,7 @@ O endpoint estará disponível na área Stages da API no API Gateway
 <br>
 TODO:
 <br>
-model de input, validar input, specs e mocks.
+model de input, validar input.
 
 <br>
 <br>

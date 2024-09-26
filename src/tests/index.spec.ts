@@ -1,11 +1,8 @@
-import { mockRequest, mockRequestWithBody, mockRequestWithPathParameter } from "./mocks/request.mock"
+import { mockGetRequest, mockRequestWithBody, mockGetRequestWithPathParameter, mockDeleteRequestWithPathParameter } from "./mocks/request.mock"
 import { handler } from "../index"
 
 import { mockClient } from "aws-sdk-client-mock";
 import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-
-
-//import { GetItemInput } from 'aws-sdk/clients/dynamodb';
 
 import {
     ScanCommand,
@@ -44,11 +41,10 @@ test('it should return the expected array of users', async () => {
         Items: expected
     })
 
-    const result = await handler(mockRequest, {});
+    const result = await handler(mockGetRequest, {});
 
     expect(JSON.parse(result.body)).toMatchObject(expected);
 })
-
 
 test('it should return the expected user', async () => {
 
@@ -68,7 +64,7 @@ test('it should return the expected user', async () => {
         Item: expected
     })
 
-    const result = await handler(mockRequestWithPathParameter, {});
+    const result = await handler(mockGetRequestWithPathParameter, {});
 
     expect(JSON.parse(result.body)).toMatchObject(expected);
 })
@@ -99,7 +95,39 @@ test('it should insert the correct user', async () => {
     )
 
     const result = await handler(mockRequestWithBody, {});
-    
+
+    expect(result.body).toEqual(expected);
+})
+
+test('it should delete the correct user', async () => {
+
+    const expected = '"Deleted item 2"'
+
+    ddbMock.on(DeleteCommand).resolves(
+
+        {
+            "$metadata": {
+                "httpStatusCode": 200,
+                "requestId": "",
+                "attempts": 1,
+                "totalRetryDelay": 0
+            },
+            "Attributes": {
+                "id": "2",
+                "contatos": "abc, def, ghi",
+                "data_nasc": "10-10-1910",
+                "nome": "testing nome",
+                "address": "rua a, casa b, bairro c",
+                "ativo": false,
+
+            },
+            "ItemCollectionMetrics": undefined
+        }
+
+    )
+
+    const result = await handler(mockDeleteRequestWithPathParameter, {});
+    console.log(result)
     expect(result.body).toEqual(expected);
 })
 
