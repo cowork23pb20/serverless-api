@@ -2,6 +2,7 @@ Requisitos:
 
 Usuário AWS IAM com as permissões:
 <br>
+<br>
 ![image](https://github.com/user-attachments/assets/7a296792-2b30-477e-98de-48d3b045c950)
 <br>
 <br>
