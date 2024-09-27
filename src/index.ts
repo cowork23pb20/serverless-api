@@ -8,6 +8,7 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { Cliente } from "./model/Cliente";
 
 const client = new DynamoDBClient({});
 const dynamo = DynamoDBDocumentClient.from(client);
@@ -22,7 +23,7 @@ export const handler = async (event: APIGatewayProxyEvent, context: any): Promis
     };
 
     try {
-        
+
         switch (event.httpMethod) {
 
             case "DELETE":
@@ -52,7 +53,7 @@ export const handler = async (event: APIGatewayProxyEvent, context: any): Promis
                 }
                 else {
                     const pathParameter = event.path.split(event.path[0]).join('');
-                    
+
                     body = await dynamo.send(
                         new GetCommand({
                             TableName: tableName,
@@ -68,6 +69,22 @@ export const handler = async (event: APIGatewayProxyEvent, context: any): Promis
 
             case "PUT":
                 let requestJSON = JSON.parse(event.body);
+
+                let cliente;
+
+                if (requestJSON.contatos && requestJSON.contatos.length > 0) {
+                    cliente = new Cliente(
+                        requestJSON.id,
+                        requestJSON.nome,
+                        requestJSON.data_nasc,
+                        requestJSON.ativo,
+                        requestJSON.address,
+                        requestJSON.contatos);
+                } else {
+                    throw new Error(`Required at least 1 contact`);
+                }
+
+
                 await dynamo.send(
                     new PutCommand({
                         TableName: tableName,

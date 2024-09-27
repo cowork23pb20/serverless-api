@@ -25,12 +25,7 @@ sam deploy --guided
 O endpoint estará disponível na área Stages da API no API Gateway
 <br>
 <br>
-TODO:
-<br>
-model de input, validar input.
 
-<br>
-<br>
 Para executar os testes:
 <br>
 <br>
@@ -42,3 +37,17 @@ npm run unit
 ou
 <br>
 npm run coverage
+
+<br>
+<br>
+
+body exemplo para PUT request:
+
+{
+    "id":"1",
+    "nome":"testing nome",
+    "data_nasc":"10-10-1910",
+    "ativo":true,
+    "address":"rua a, casa b, bairro c",
+    "contatos":"abc, def, ghi"
+}
